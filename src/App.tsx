@@ -1,24 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import { IAsset } from './@types/types';
+
 import './App.css';
+import { getAssets } from './services/fx-prices';
+
+enum TradeDirection {
+  Sell = 'Sell',
+  Buy = 'Buy'
+}
+type ITradeBtnProps = {
+  direction?: TradeDirection,
+  trade?: () => void;
+  price: number;
+};
+function TradeBtn(props: ITradeBtnProps) {
+  const { direction = TradeDirection.Buy, trade, price } = props;
+  return <button onClick={trade}><div>{direction}</div><div>{price}</div></button>
+}
+
+type ITradeTileProps = {
+  asset?: string;
+  buyPrice?: number;
+  sellPrice?: number;
+}
+const TradeTile = ({ asset = 'EUR USD', buyPrice = 19.7812, sellPrice = 20.2013 }: ITradeTileProps) => {
+  return (<div className="trade-tile">
+    <h3>{asset}</h3>
+    <div className="trade-tile-buttons">
+      <TradeBtn price={buyPrice} />
+      <TradeBtn price={sellPrice} direction={TradeDirection.Sell} />
+    </div>
+  </div>
+  );
+}
+
+
+
 
 function App() {
+  const [assets, setAssets] = useState([] as IAsset[]);
+  useEffect(() => {
+    getAssets().then(setAssets);
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="trade-tiles-container">{assets.map(asset => <TradeTile asset={asset} />)}</div>
     </div>
   );
 }
