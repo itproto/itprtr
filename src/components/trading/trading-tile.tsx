@@ -6,6 +6,7 @@ import 'antd/dist/antd.css'
 import { getAssets, getPrice$ } from '../../services/fx-prices';
 import { formatPrice } from '../../common/format-utils';
 
+import { Button, Card, Dropdown, Menu } from "antd";
 type ITradeBtnProps = {
     direction?: TradeDirection,
     trade: (val: Partial<ITrade>) => void;
@@ -39,13 +40,25 @@ export const TradeTile = ({ asset = 'EUR USD', trade }: ITradeTileProps) => {
 
     const tradeWithAsset = (val: Partial<ITrade>) => trade({ asset, ...val });
 
-    return (<div className="trade-tile">
-        <h3>{asset}</h3>
+    const menu = (
+        <Menu>
+            <Menu.Item>
+                <a href="#">
+                    Remove
+                </a>
+            </Menu.Item>
+        </Menu>);
+
+    const extraMenu = <Dropdown overlay={menu} placement="bottomRight">
+        <Button>...</Button>
+    </Dropdown>
+
+    return (<Card size="small" title={asset} extra={extraMenu} className="trade-tile">
         <div className="trade-tile-buttons">
             <TradeBtn price={(priceResult.buyPrice)} trade={tradeWithAsset} />
             <TradeBtn price={priceResult.sellPrice} direction={TradeDirection.Sell} trade={tradeWithAsset} />
         </div>
-    </div>
+    </Card>
     );
 }
 

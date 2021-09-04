@@ -4,6 +4,7 @@ import './app.css';
 import 'antd/dist/antd.css'
 import { TradingTiles } from '../trading/trading-tile';
 import { Blotter } from '../trading/blotter/blotter';
+import { WidgetCard } from '../shell/widget-card';
 
 
 function App() {
@@ -17,8 +18,8 @@ function App() {
 
   return (
     <div className="App">
-      <Blotter data={trades} />
-      <TradingTiles trade={onTrade} />
+      <WidgetCard title={'Blotter'} > <Blotter data={trades} /></WidgetCard>
+      <WidgetCard title={'FX Tiles'}  > <TradingTiles trade={onTrade} /></WidgetCard>
     </div>
   );
 }

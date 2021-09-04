@@ -1,5 +1,7 @@
+import { List } from "antd";
 import { ITrade } from "../../../@types/types";
 import { formatPrice } from "../../../common/format-utils";
+import { WidgetCard } from "../../shell/widget-card";
 
 type IBlotterItem<T = ITrade> = {
     data: T
@@ -17,6 +19,13 @@ type IBlotterProps<T = ITrade> = {
 }
 export const Blotter = ({ data }: IBlotterProps) => {
     return (
-        <div className="trades-blotter">{data.map(trade => <BlotterItem data={trade} />)}</div>
+        <div className="trades-blotter">
+            <List
+                size="small"
+                bordered
+                dataSource={data}
+                renderItem={trade => <List.Item><BlotterItem data={trade} /></List.Item>}
+            />
+        </div>
     );
 };
