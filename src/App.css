@@ -10,3 +10,21 @@
   border: 1px solid green;
   border-radius: 5px;
 }
+.trade-tile-btn{
+  width: 6rem;
+}
+
+.trade-btn {
+  background-color:red;
+  cursor: pointer;
+}
+
+.trade-btn.trade-btn-sell {
+  background-color:green;
+}
+
+.trades-blotter{
+  height: 10rem;
+  overflow: auto;
+  background: #ccc;
+}
